@@ -4,12 +4,26 @@ import { FileText, Calendar, SortAsc, SortDesc } from 'lucide-react'
 import ArticleCard from '../components/ArticleCard'
 import TagFilter from '../components/TagFilter'
 import LoadingSpinner from '../components/LoadingSpinner'
+import Pagination from '../components/Pagination'
 import { useBlog } from '../context/BlogContext'
+import configManager from '../config/index.jsx'
 
 const Articles = () => {
   const { articles, tags, loading } = useBlog()
   const [selectedTags, setSelectedTags] = useState([])
   const [sortBy, setSortBy] = useState('date-desc') // date-desc, date-asc, title
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  // 从配置文件获取分页设置
+  let paginationConfig, itemsPerPage
+  
+  try {
+    paginationConfig = configManager.getPaginationConfig()
+    itemsPerPage = paginationConfig.itemsPerPage
+  } catch (error) {
+    console.error('配置加载失败:', error)
+    itemsPerPage = 30 // 默认值
+  }
 
   // 筛选和排序文章
   const filteredAndSortedArticles = useMemo(() => {
@@ -39,16 +53,36 @@ const Articles = () => {
     return sorted
   }, [articles, selectedTags, sortBy])
 
+  // 分页计算
+  const totalPages = Math.ceil(filteredAndSortedArticles.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const currentArticles = filteredAndSortedArticles.slice(startIndex, endIndex)
+
   const handleTagToggle = (tag) => {
     setSelectedTags(prev =>
       prev.includes(tag)
         ? prev.filter(t => t !== tag)
         : [...prev, tag]
     )
+    // 标签筛选后重置到第一页
+    setCurrentPage(1)
   }
 
   const handleClearAllTags = () => {
     setSelectedTags([])
+    setCurrentPage(1)
+  }
+
+  const handleSortChange = (newSort) => {
+    setSortBy(newSort)
+    setCurrentPage(1)
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    // 滚动到页面顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const sortOptions = [
@@ -113,7 +147,7 @@ const Articles = () => {
               return (
                 <button
                   key={option.value}
-                  onClick={() => setSortBy(option.value)}
+                  onClick={() => handleSortChange(option.value)}
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition-all duration-300 text-sm ${
                     isActive
                       ? 'bg-blue-600 text-white shadow-glow'
@@ -150,15 +184,26 @@ const Articles = () => {
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         {filteredAndSortedArticles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredAndSortedArticles.map((article, index) => (
-              <ArticleCard
-                key={article.id}
-                article={article}
-                index={index}
-              />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {currentArticles.map((article, index) => (
+                <ArticleCard
+                  key={article.id}
+                  article={article}
+                  index={index}
+                />
+              ))}
+            </div>
+            
+            {/* 分页组件 */}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              itemsPerPage={itemsPerPage}
+              totalItems={filteredAndSortedArticles.length}
+            />
+          </>
         ) : (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}

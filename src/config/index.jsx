@@ -1,0 +1,103 @@
+import configData from './config.json'
+
+/**
+ * 应用配置管理器
+ */
+class ConfigManager {
+  constructor() {
+    this.config = configData
+    this.isProduction = import.meta.env.PROD
+    this.runtimeConfig = null
+    this.isLoading = false
+  }
+
+  /**
+   * 在生产环境中初始化运行时配置
+   */
+  async initRuntimeConfig() {
+    if (!this.isProduction || this.runtimeConfig || this.isLoading) {
+      return
+    }
+
+    this.isLoading = true
+    try {
+      const basePath = import.meta.env.BASE_URL || '/'
+      const configUrl = `${basePath}config/config.json`
+      
+      const response = await fetch(configUrl)
+      if (response.ok) {
+        this.runtimeConfig = await response.json()
+      }
+    } catch (error) {
+      console.warn('运行时配置加载失败，使用默认配置:', error)
+    } finally {
+      this.isLoading = false
+    }
+  }
+
+  /**
+   * 获取当前配置
+   */
+  _getCurrentConfig() {
+    return this.runtimeConfig || this.config
+  }
+
+  /**
+   * 获取站点配置
+   */
+  getSiteConfig() {
+    return this._getCurrentConfig().site
+  }
+
+  /**
+   * 获取分页配置
+   */
+  getPaginationConfig() {
+    return this._getCurrentConfig().pagination
+  }
+
+  /**
+   * 获取作者信息
+   */
+  getAuthorInfo() {
+    return this._getCurrentConfig().author
+  }
+
+  /**
+   * 获取技能列表
+   */
+  getSkills() {
+    return this._getCurrentConfig().skills
+  }
+
+  /**
+   * 获取兴趣爱好
+   */
+  getInterests() {
+    return this._getCurrentConfig().interests
+  }
+
+  /**
+   * 获取时间轴
+   */
+  getTimeline() {
+    return this._getCurrentConfig().timeline
+  }
+
+  /**
+   * 获取完整配置
+   */
+  getConfig() {
+    return this._getCurrentConfig()
+  }
+}
+
+// 创建单例实例
+const configManager = new ConfigManager()
+
+// 在生产环境中初始化运行时配置
+if (configManager.isProduction) {
+  configManager.initRuntimeConfig()
+}
+
+export default configManager

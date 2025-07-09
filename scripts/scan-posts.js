@@ -59,26 +59,28 @@ function scanPosts() {
       articles: articles
     };
     
-    // 写入配置文件到两个位置
-    const srcConfigPath = path.join(__dirname, '../src/config/articles.json');
+    // 写入配置文件到 public 目录（运行时使用）
     const publicConfigPath = path.join(__dirname, '../public/config/articles.json');
+    const publicAppConfigPath = path.join(__dirname, '../public/config/config.json');
     
     // 确保目录存在
-    const srcConfigDir = path.dirname(srcConfigPath);
     const publicConfigDir = path.dirname(publicConfigPath);
     
-    if (!fs.existsSync(srcConfigDir)) {
-      fs.mkdirSync(srcConfigDir, { recursive: true });
-    }
     if (!fs.existsSync(publicConfigDir)) {
       fs.mkdirSync(publicConfigDir, { recursive: true });
     }
     
-    // 写入配置文件
-    fs.writeFileSync(srcConfigPath, JSON.stringify(config, null, 2));
+    // 写入文章配置文件
     fs.writeFileSync(publicConfigPath, JSON.stringify(config, null, 2));
     
-    console.log(`✓ 生成配置文件: articles.json (src + public)`);
+    // 复制应用配置文件到 public 目录
+    const srcAppConfigPath = path.join(__dirname, '../src/config/config.json');
+    if (fs.existsSync(srcAppConfigPath)) {
+      fs.copyFileSync(srcAppConfigPath, publicAppConfigPath);
+      console.log(`✓ 复制配置文件: config.json`);
+    }
+    
+    console.log(`✓ 生成配置文件: articles.json (public)`);
     console.log(`✓ 找到 ${articles.length} 篇文章`);
     
     return config;
