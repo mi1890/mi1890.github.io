@@ -85,6 +85,13 @@ class ConfigManager {
   }
 
   /**
+   * 获取评论配置
+   */
+  getCommentsConfig() {
+    return this._getCurrentConfig().comments
+  }
+
+  /**
    * 获取完整配置
    */
   getConfig() {

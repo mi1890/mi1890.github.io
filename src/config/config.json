@@ -33,6 +33,23 @@
             }
         ]
     },
+    "comments": {
+        "enabled": true,
+        "giscus": {
+            "repo": "mi1890/mi1890.github.io",
+            "repoId": "YOUR_REPO_ID",
+            "category": "Comments",
+            "categoryId": "YOUR_CATEGORY_ID",
+            "mapping": "pathname",
+            "strict": "0",
+            "reactionsEnabled": "1",
+            "emitMetadata": "0",
+            "inputPosition": "bottom",
+            "theme": "light",
+            "lang": "zh-CN",
+            "loading": "lazy"
+        }
+    },
     "skills": [
         "C#",
         "AspNetCore",
