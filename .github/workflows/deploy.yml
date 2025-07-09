@@ -1,3 +1,4 @@
+# 使用 peaceiris/actions-gh-pages 来避免构件冲突问题
 name: Deploy to GitHub Pages
 
 on:
