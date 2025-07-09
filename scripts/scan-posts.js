@@ -9,13 +9,33 @@ const __dirname = path.dirname(__filename);
 function scanPosts() {
   const postsDir = path.join(__dirname, '../posts');
   const publicPostsDir = path.join(__dirname, '../public/posts');
+  const publicImagesDir = path.join(__dirname, '../public/images');
   
-  // 确保 public/posts 目录存在
+  // 确保 public/posts 和 public/images 目录存在
   if (!fs.existsSync(publicPostsDir)) {
     fs.mkdirSync(publicPostsDir, { recursive: true });
   }
+  if (!fs.existsSync(publicImagesDir)) {
+    fs.mkdirSync(publicImagesDir, { recursive: true });
+  }
   
   try {
+    // 复制 posts/images 到 public/images
+    const postsImagesDir = path.join(postsDir, 'images');
+    if (fs.existsSync(postsImagesDir)) {
+      const imageFiles = fs.readdirSync(postsImagesDir);
+      imageFiles.forEach(imageFile => {
+        const sourcePath = path.join(postsImagesDir, imageFile);
+        const destPath = path.join(publicImagesDir, imageFile);
+        
+        // 检查是否是文件（不是目录）
+        if (fs.statSync(sourcePath).isFile()) {
+          fs.copyFileSync(sourcePath, destPath);
+          console.log(`✓ 复制图片: ${imageFile}`);
+        }
+      });
+    }
+    
     const files = fs.readdirSync(postsDir);
     const markdownFiles = files.filter(file => file.endsWith('.md'));
     
@@ -27,7 +47,7 @@ function scanPosts() {
       const destPath = path.join(publicPostsDir, file);
       fs.copyFileSync(sourcePath, destPath);
       
-      console.log(`✓ 复制文件: ${file}`);
+      console.log(`✓ 复制文章: ${file}`);
       
       return {
         slug: slug,
@@ -39,11 +59,26 @@ function scanPosts() {
       articles: articles
     };
     
-    // 写入配置文件
-    const configPath = path.join(__dirname, '../src/config/articles.json');
-    fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+    // 写入配置文件到两个位置
+    const srcConfigPath = path.join(__dirname, '../src/config/articles.json');
+    const publicConfigPath = path.join(__dirname, '../public/config/articles.json');
     
-    console.log(`✓ 生成配置文件: articles.json`);
+    // 确保目录存在
+    const srcConfigDir = path.dirname(srcConfigPath);
+    const publicConfigDir = path.dirname(publicConfigPath);
+    
+    if (!fs.existsSync(srcConfigDir)) {
+      fs.mkdirSync(srcConfigDir, { recursive: true });
+    }
+    if (!fs.existsSync(publicConfigDir)) {
+      fs.mkdirSync(publicConfigDir, { recursive: true });
+    }
+    
+    // 写入配置文件
+    fs.writeFileSync(srcConfigPath, JSON.stringify(config, null, 2));
+    fs.writeFileSync(publicConfigPath, JSON.stringify(config, null, 2));
+    
+    console.log(`✓ 生成配置文件: articles.json (src + public)`);
     console.log(`✓ 找到 ${articles.length} 篇文章`);
     
     return config;

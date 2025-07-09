@@ -188,6 +188,15 @@ const ArticleDetail = () => {
                     {children}
                   </a>
                 ),
+                img: ({ src, alt, title }) => (
+                  <img
+                    src={src}
+                    alt={alt}
+                    title={title}
+                    className="max-w-full h-auto rounded-lg shadow-md my-4 mx-auto block"
+                    loading="lazy"
+                  />
+                ),
               }}
             >
               {article.content}
