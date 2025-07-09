@@ -26,7 +26,8 @@ export const BlogProvider = ({ children }) => {
 
   // 获取基础路径
   const getBasePath = () => {
-    return import.meta.env.MODE === 'production' ? '/mi1890.github.io' : ''
+    // 对于 User/Organization Pages (mi1890.github.io)，base 路径是 '/'
+    return ''
   }
 
   // 加载文章配置
