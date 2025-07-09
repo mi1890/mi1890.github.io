@@ -62,50 +62,74 @@ const Articles = () => {
   }
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
+    <div className="space-y-6">
+      {/* Header - 减少高度 */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center"
+        className="text-center py-2"
       >
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
           文章
         </h1>
-        <p className="text-xl text-gray-600">
+        <p className="text-lg text-gray-600">
           分享技术心得与编程思考
         </p>
       </motion.section>
 
-      {/* Stats */}
+      {/* Stats & Sort Options - 合并到同一行 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        className="flex flex-col lg:flex-row gap-4 items-start lg:items-center lg:justify-between"
       >
-        <div className="card p-6 text-center">
-          <div className="text-3xl font-bold text-blue-600 mb-2">
-            {articles.length}
+        {/* 紧凑统计卡片 - 水平排列 */}
+        <div className="card p-3 flex items-center gap-6 flex-shrink-0">
+          <div className="flex items-center gap-2">
+            <div className="text-lg font-bold text-blue-600">{articles.length}</div>
+            <div className="text-gray-600 text-xs">文章</div>
           </div>
-          <div className="text-gray-600">文章总数</div>
+          <div className="w-px h-6 bg-gray-200"></div>
+          <div className="flex items-center gap-2">
+            <div className="text-lg font-bold text-green-600">{tags.length}</div>
+            <div className="text-gray-600 text-xs">标签</div>
+          </div>
+          <div className="w-px h-6 bg-gray-200"></div>
+          <div className="flex items-center gap-2">
+            <div className="text-lg font-bold text-purple-600">{filteredAndSortedArticles.length}</div>
+            <div className="text-gray-600 text-xs">筛选</div>
+          </div>
         </div>
-        <div className="card p-6 text-center">
-          <div className="text-3xl font-bold text-green-600 mb-2">
-            {tags.length}
+
+        {/* 排序选项 */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-gray-700 font-medium text-sm">排序:</span>
+          <div className="flex flex-wrap gap-2">
+            {sortOptions.map((option) => {
+              const Icon = option.icon
+              const isActive = sortBy === option.value
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => setSortBy(option.value)}
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition-all duration-300 text-sm ${
+                    isActive
+                      ? 'bg-blue-600 text-white shadow-glow'
+                      : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" />
+                  <span className="font-medium">{option.label}</span>
+                </button>
+              )
+            })}
           </div>
-          <div className="text-gray-600">标签数量</div>
-        </div>
-        <div className="card p-6 text-center">
-          <div className="text-3xl font-bold text-purple-600 mb-2">
-            {filteredAndSortedArticles.length}
-          </div>
-          <div className="text-gray-600">筛选结果</div>
         </div>
       </motion.div>
 
-      {/* Filters */}
+      {/* 标签筛选 - 单独一行 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -119,41 +143,11 @@ const Articles = () => {
         />
       </motion.div>
 
-      {/* Sort Options */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-        className="flex flex-wrap items-center gap-4"
-      >
-        <span className="text-gray-700 font-medium">排序方式:</span>
-        <div className="flex flex-wrap gap-2">
-          {sortOptions.map((option) => {
-            const Icon = option.icon
-            const isActive = sortBy === option.value
-            return (
-              <button
-                key={option.value}
-                onClick={() => setSortBy(option.value)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                  isActive
-                    ? 'bg-blue-600 text-white shadow-glow'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span className="font-medium">{option.label}</span>
-              </button>
-            )
-          })}
-        </div>
-      </motion.div>
-
       {/* Articles Grid */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
       >
         {filteredAndSortedArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -169,7 +163,7 @@ const Articles = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16"
+            className="text-center py-12"
           >
             <div className="bg-gray-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
               <FileText className="w-10 h-10 text-gray-400" />

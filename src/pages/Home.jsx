@@ -15,51 +15,50 @@ const Home = () => {
   }
 
   return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <section className="text-center py-12">
+    <div className="space-y-6">
+      {/* Hero Section - 进一步减少高度 */}
+      <section className="text-center py-4">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="space-y-6"
+          className="space-y-3"
         >
-          <h1 className="text-4xl md:text-6xl font-bold">
+          <h1 className="text-2xl md:text-4xl font-bold">
             <span className="gradient-text">Mi1890</span>
             <span className="text-gray-900">'s Blog</span>
           </h1>
           
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
             分享前端开发、技术思考和编程经验的个人博客。
-            在这里记录我的技术成长之路。
           </p>
 
-          <div className="flex flex-wrap justify-center gap-6 mt-8">
-            <div className="flex items-center space-x-2 text-gray-700">
-              <Code className="w-5 h-5 text-blue-600" />
-              <span className="font-medium">前端开发</span>
+          <div className="flex flex-wrap justify-center gap-3 mt-4">
+            <div className="flex items-center space-x-1.5 text-gray-700">
+              <Code className="w-3.5 h-3.5 text-blue-600" />
+              <span className="text-xs font-medium">前端开发</span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700">
-              <Zap className="w-5 h-5 text-yellow-500" />
-              <span className="font-medium">技术分享</span>
+            <div className="flex items-center space-x-1.5 text-gray-700">
+              <Zap className="w-3.5 h-3.5 text-yellow-500" />
+              <span className="text-xs font-medium">技术分享</span>
             </div>
-            <div className="flex items-center space-x-2 text-gray-700">
-              <Heart className="w-5 h-5 text-red-500" />
-              <span className="font-medium">热爱编程</span>
+            <div className="flex items-center space-x-1.5 text-gray-700">
+              <Heart className="w-3.5 h-3.5 text-red-500" />
+              <span className="text-xs font-medium">热爱编程</span>
             </div>
           </div>
         </motion.div>
       </section>
 
       {/* Featured Articles Section */}
-      <section className="space-y-8">
+      <section className="space-y-6">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex items-center justify-between"
         >
-          <h2 className="text-3xl font-bold text-gray-900">最新文章</h2>
+          <h2 className="text-2xl font-bold text-gray-900">最新文章</h2>
           <Link
             to="/articles"
             className="inline-flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-300"
