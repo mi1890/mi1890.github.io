@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { format } from 'date-fns'
-import articlesConfig from '../config/articles.json'
 
 const BlogContext = createContext()
 
@@ -25,10 +24,32 @@ export const BlogProvider = ({ children }) => {
     return Math.max(1, readTime) // 至少1分钟
   }
 
+  // 加载文章配置
+  const loadArticlesConfig = async () => {
+    try {
+      const response = await fetch('/config/articles.json')
+      if (!response.ok) {
+        throw new Error('配置文件加载失败')
+      }
+      return await response.json()
+    } catch (error) {
+      console.warn('加载配置文件失败，使用默认配置:', error)
+      return {
+        articles: [
+          { slug: 'react-best-practices', enabled: true },
+          { slug: 'javascript-async-patterns', enabled: true },
+          { slug: 'css-grid-layout', enabled: true },
+          { slug: 'typescript-advanced', enabled: true }
+        ]
+      }
+    }
+  }
+
   // 从 markdown 文件加载文章数据
   const loadArticles = async () => {
     try {
-      // 从配置文件获取文章列表
+      // 动态加载配置文件
+      const articlesConfig = await loadArticlesConfig()
       const enabledArticles = articlesConfig.articles.filter(article => article.enabled)
       
       const articlesData = await Promise.all(

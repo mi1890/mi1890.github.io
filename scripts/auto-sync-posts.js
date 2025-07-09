@@ -101,6 +101,14 @@ function autoSyncPosts() {
     
     fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
     
+    // 同时复制到 public 目录
+    const publicConfigPath = path.join(__dirname, '../public/config/articles.json');
+    const publicConfigDir = path.dirname(publicConfigPath);
+    if (!fs.existsSync(publicConfigDir)) {
+      fs.mkdirSync(publicConfigDir, { recursive: true });
+    }
+    fs.writeFileSync(publicConfigPath, JSON.stringify(config, null, 2));
+    
     console.log(`✓ 更新配置文件: articles.json`);
     console.log(`📊 统计: 复制 ${copiedCount} 个，跳过 ${skippedCount} 个`);
     
