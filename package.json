@@ -8,8 +8,7 @@
     "build": "npm run scan-posts && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "scan-posts": "node scripts/scan-posts.js",
-    "prebuild": "npm run scan-posts"
+    "scan-posts": "node scripts/scan-posts.js"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
