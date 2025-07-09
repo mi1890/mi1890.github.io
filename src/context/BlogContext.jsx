@@ -24,10 +24,16 @@ export const BlogProvider = ({ children }) => {
     return Math.max(1, readTime) // 至少1分钟
   }
 
+  // 获取基础路径
+  const getBasePath = () => {
+    return import.meta.env.MODE === 'production' ? '/mi1890.github.io' : ''
+  }
+
   // 加载文章配置
   const loadArticlesConfig = async () => {
     try {
-      const response = await fetch('/config/articles.json')
+      const basePath = getBasePath()
+      const response = await fetch(`${basePath}/config/articles.json`)
       if (!response.ok) {
         throw new Error('配置文件加载失败')
       }
@@ -66,7 +72,8 @@ export const BlogProvider = ({ children }) => {
   // 加载单个文章
   const loadArticle = async (slug) => {
     try {
-      const response = await fetch(`/posts/${slug}.md`)
+      const basePath = getBasePath()
+      const response = await fetch(`${basePath}/posts/${slug}.md`)
       if (!response.ok) {
         throw new Error(`Failed to load ${slug}`)
       }
