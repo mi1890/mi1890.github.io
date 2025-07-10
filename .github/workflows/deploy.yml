@@ -29,6 +29,28 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Create 404.html for GitHub Pages SPA routing
+        run: |
+          cat > dist/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Mi1890's Blog</title>
+              <script>
+                // GitHub Pages SPA 路由重定向
+                // 将当前路径存储到 sessionStorage，然后重定向到根路径
+                sessionStorage.setItem('redirect', location.pathname + location.search + location.hash);
+                location.replace('/');
+              </script>
+            </head>
+            <body>
+              <div>正在重定向...</div>
+            </body>
+          </html>
+          EOF
+
       - name: List dist contents (debug)
         run: ls -la dist/
 
