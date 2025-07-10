@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { Github, Mail, Heart } from 'lucide-react'
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
 
   const socialLinks = [

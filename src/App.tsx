@@ -9,7 +9,7 @@ import Search from './pages/Search'
 import ArticleDetail from './pages/ArticleDetail'
 import { BlogProvider } from './context/BlogContext'
 
-function App() {
+const App: React.FC = () => {
   return (
     <BlogProvider>
       <Router>

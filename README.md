@@ -1,7 +1,7 @@
 
 # Mi1890's Personal Blog
 
-一个基于 React + Vite + Tailwind CSS 构建的现代化个人博客网站。
+一个基于 React + TypeScript + Vite + Tailwind CSS 构建的现代化个人博客网站。
 
 ## ✨ 特性
 
@@ -13,10 +13,12 @@
 - 🎭 **流畅动画**: 使用 Framer Motion 提供丝滑的交互体验
 - 📝 **Markdown 支持**: 原生支持 Markdown 格式文章
 - 🌙 **字体优化**: 使用 JetBrains Mono 等编程字体
+- 🔒 **类型安全**: 完整的 TypeScript 支持，提供更好的开发体验
 
 ## 🛠️ 技术栈
 
 - **前端框架**: React 18
+- **类型系统**: TypeScript
 - **构建工具**: Vite
 - **样式方案**: Tailwind CSS
 - **路由管理**: React Router
@@ -31,23 +33,25 @@
 mi1890.github.io/
 ├── src/
 │   ├── components/          # 可复用组件
-│   │   ├── Layout.jsx      # 布局组件
-│   │   ├── Header.jsx      # 头部导航
-│   │   ├── Footer.jsx      # 页脚
-│   │   ├── ArticleCard.jsx # 文章卡片
-│   │   ├── TagFilter.jsx   # 标签筛选器
-│   │   └── LoadingSpinner.jsx # 加载动画
+│   │   ├── Layout.tsx      # 布局组件
+│   │   ├── Header.tsx      # 头部导航
+│   │   ├── Footer.tsx      # 页脚
+│   │   ├── ArticleCard.tsx # 文章卡片
+│   │   ├── TagFilter.tsx   # 标签筛选器
+│   │   └── LoadingSpinner.tsx # 加载动画
 │   ├── pages/              # 页面组件
-│   │   ├── Home.jsx        # 首页
-│   │   ├── About.jsx       # 关于页面
-│   │   ├── Articles.jsx    # 文章列表
-│   │   ├── Search.jsx      # 搜索页面
-│   │   └── ArticleDetail.jsx # 文章详情
+│   │   ├── Home.tsx        # 首页
+│   │   ├── About.tsx       # 关于页面
+│   │   ├── Articles.tsx    # 文章列表
+│   │   ├── Search.tsx      # 搜索页面
+│   │   └── ArticleDetail.tsx # 文章详情
 │   ├── context/            # 状态管理
-│   │   └── BlogContext.jsx # 博客数据上下文
-│   ├── App.jsx             # 主应用组件
-│   ├── main.jsx           # 应用入口
-│   └── index.css          # 全局样式
+│   │   └── BlogContext.tsx # 博客数据上下文
+│   ├── types/              # TypeScript 类型定义
+│   │   └── index.ts        # 全局类型定义
+│   ├── App.tsx             # 主应用组件
+│   ├── main.tsx            # 应用入口
+│   └── index.css           # 全局样式
 ├── posts/                  # Markdown 文章
 ├── public/                # 静态资源
 ├── .github/workflows/     # GitHub Actions
@@ -75,13 +79,19 @@ npm install
 npm run dev
 ```
 
-### 4. 构建生产版本
+### 4. 类型检查
+
+```bash
+npm run type-check
+```
+
+### 5. 构建生产版本
 
 ```bash
 npm run build
 ```
 
-### 5. 预览构建结果
+### 6. 预览构建结果
 
 ```bash
 npm run preview

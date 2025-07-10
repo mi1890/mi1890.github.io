@@ -1,8 +1,16 @@
 import React from 'react'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
-import configManager from '../config/index.jsx'
+import configManager from '../config/index'
 
-const Pagination = ({ 
+interface PaginationProps {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+  itemsPerPage?: number
+  totalItems?: number
+}
+
+const Pagination: React.FC<PaginationProps> = ({ 
   currentPage, 
   totalPages, 
   onPageChange,
@@ -103,7 +111,7 @@ const Pagination = ({
               </div>
             ) : (
               <button
-                onClick={() => onPageChange(page)}
+                onClick={() => onPageChange(typeof page === 'number' ? page : parseInt(page))}
                 className={`w-10 h-10 rounded-lg transition-all duration-200 ${
                   currentPage === page
                     ? 'bg-blue-600 text-white shadow-glow'
@@ -141,14 +149,15 @@ const Pagination = ({
           className="w-16 px-2 py-1 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              const page = parseInt(e.target.value)
+              const target = e.target as HTMLInputElement
+              const page = parseInt(target.value)
               if (page >= 1 && page <= totalPages) {
                 onPageChange(page)
-                e.target.value = ''
+                target.value = ''
               }
             }
           }}
-          placeholder={currentPage}
+          placeholder={currentPage.toString()}
         />
         <span className="text-gray-600">页</span>
       </div>

@@ -2,10 +2,21 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Calendar, Clock, Tag } from 'lucide-react'
-import { useBlog } from '../context/BlogContext'
+import type { Article } from '../types'
 
-const ArticleCard = ({ article, index = 0 }) => {
-  const { formatDate } = useBlog()
+interface ArticleCardProps {
+  article: Article
+  index?: number
+}
+
+const ArticleCard: React.FC<ArticleCardProps> = ({ article, index = 0 }) => {
+  const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
 
   return (
     <motion.article
@@ -53,7 +64,7 @@ const ArticleCard = ({ article, index = 0 }) => {
           </div>
           <div className="flex items-center space-x-1">
             <Clock className="w-4 h-4" />
-            <span>{article.readTime} 分钟阅读</span>
+            <span>{article.readingTime} 分钟阅读</span>
           </div>
         </div>
         <Link

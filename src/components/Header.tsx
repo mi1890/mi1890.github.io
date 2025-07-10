@@ -1,20 +1,26 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Code, Home, User, FileText, Search } from 'lucide-react'
+import { Menu, X, Code, Home, User, FileText, Search, LucideIcon } from 'lucide-react'
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+interface NavItem {
+  name: string
+  path: string
+  icon: LucideIcon
+}
+
+const Header: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
   const location = useLocation()
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { name: 'Home', path: '/', icon: Home },
     { name: 'Articles', path: '/articles', icon: FileText },
     { name: 'About', path: '/about', icon: User },
     { name: 'Search', path: '/search', icon: Search },
   ]
 
-  const isActive = (path) => location.pathname === path
+  const isActive = (path: string): boolean => location.pathname === path
 
   return (
     <header className="bg-white shadow-card sticky top-0 z-50">

@@ -2,7 +2,15 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Tag, X } from 'lucide-react'
 
-const TagFilter = ({ tags, selectedTags, onTagToggle, onClearAll, noCard = false }) => {
+interface TagFilterProps {
+  tags: string[]
+  selectedTags: string[]
+  onTagToggle: (tag: string) => void
+  onClearAll: () => void
+  noCard?: boolean
+}
+
+const TagFilter: React.FC<TagFilterProps> = ({ tags, selectedTags, onTagToggle, onClearAll, noCard = false }) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const displayTags = isExpanded ? tags : tags.slice(0, 6)
 

@@ -1,8 +1,13 @@
 import React, { useEffect, useRef } from 'react'
-import configManager from '../config/index.jsx'
+import configManager from '../config/index'
 
-const CommentSection = ({ articleId, articleTitle }) => {
-  const commentRef = useRef(null)
+interface CommentSectionProps {
+  articleSlug: string
+  articleTitle?: string
+}
+
+const CommentSection: React.FC<CommentSectionProps> = ({ articleSlug, articleTitle }) => {
+  const commentRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const commentsConfig = configManager.getCommentsConfig()
@@ -12,6 +17,9 @@ const CommentSection = ({ articleId, articleTitle }) => {
     }
 
     const { giscus } = commentsConfig
+
+    // 使用 articleTitle 作为讨论标题，如果提供的话
+    const discussionTitle = articleTitle || articleSlug
 
     // Giscus 配置
     const script = document.createElement('script')
@@ -28,6 +36,10 @@ const CommentSection = ({ articleId, articleTitle }) => {
     script.setAttribute('data-theme', giscus.theme)
     script.setAttribute('data-lang', giscus.lang)
     script.setAttribute('data-loading', giscus.loading)
+    // 设置讨论标题
+    if (giscus.mapping === 'specific' && discussionTitle) {
+      script.setAttribute('data-term', discussionTitle)
+    }
     script.crossOrigin = 'anonymous'
     script.async = true
 
@@ -40,7 +52,7 @@ const CommentSection = ({ articleId, articleTitle }) => {
         commentRef.current.innerHTML = ''
       }
     }
-  }, [articleId])
+  }, [articleSlug])
 
   return (
     <div className="mt-12 pt-8 border-t border-gray-200">

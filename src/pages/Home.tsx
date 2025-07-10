@@ -5,8 +5,9 @@ import { ArrowRight, Code, Zap, Heart } from 'lucide-react'
 import ArticleCard from '../components/ArticleCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useBlog } from '../context/BlogContext'
+import type { Article } from '../types'
 
-const Home = () => {
+const Home: React.FC = () => {
   const { articles, loading } = useBlog()
   const recentArticles = articles.slice(0, 3)
 
@@ -70,9 +71,9 @@ const Home = () => {
 
         {recentArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recentArticles.map((article, index) => (
+            {recentArticles.map((article: Article, index: number) => (
               <ArticleCard
-                key={article.id}
+                key={article.slug}
                 article={article}
                 index={index}
               />

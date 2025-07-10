@@ -1,18 +1,19 @@
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { FileText, Calendar, SortAsc, SortDesc } from 'lucide-react'
+import { FileText, SortAsc, SortDesc } from 'lucide-react'
 import ArticleCard from '../components/ArticleCard'
 import TagFilter from '../components/TagFilter'
 import LoadingSpinner from '../components/LoadingSpinner'
 import Pagination from '../components/Pagination'
 import { useBlog } from '../context/BlogContext'
-import configManager from '../config/index.jsx'
+import configManager from '../config/index'
+import type { Article } from '../types'
 
-const Articles = () => {
+const Articles: React.FC = () => {
   const { articles, tags, loading } = useBlog()
-  const [selectedTags, setSelectedTags] = useState([])
-  const [sortBy, setSortBy] = useState('date-desc') // date-desc, date-asc, title
-  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const [sortBy, setSortBy] = useState<string>('date-desc') // date-desc, date-asc, title
+  const [currentPage, setCurrentPage] = useState<number>(1)
   
   // 从配置文件获取分页设置
   let paginationConfig, itemsPerPage
@@ -31,7 +32,7 @@ const Articles = () => {
 
     // 标签筛选
     if (selectedTags.length > 0) {
-      filtered = articles.filter(article =>
+      filtered = articles.filter((article: Article) =>
         selectedTags.every(tag => article.tags.includes(tag))
       )
     }
@@ -40,9 +41,9 @@ const Articles = () => {
     const sorted = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case 'date-desc':
-          return new Date(b.date) - new Date(a.date)
+          return new Date(b.date).getTime() - new Date(a.date).getTime()
         case 'date-asc':
-          return new Date(a.date) - new Date(b.date)
+          return new Date(a.date).getTime() - new Date(b.date).getTime()
         case 'title':
           return a.title.localeCompare(b.title, 'zh-CN')
         default:
@@ -59,7 +60,7 @@ const Articles = () => {
   const endIndex = startIndex + itemsPerPage
   const currentArticles = filteredAndSortedArticles.slice(startIndex, endIndex)
 
-  const handleTagToggle = (tag) => {
+  const handleTagToggle = (tag: string) => {
     setSelectedTags(prev =>
       prev.includes(tag)
         ? prev.filter(t => t !== tag)
@@ -74,12 +75,12 @@ const Articles = () => {
     setCurrentPage(1)
   }
 
-  const handleSortChange = (newSort) => {
+  const handleSortChange = (newSort: string) => {
     setSortBy(newSort)
     setCurrentPage(1)
   }
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page)
     // 滚动到页面顶部
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -188,7 +189,7 @@ const Articles = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {currentArticles.map((article, index) => (
                 <ArticleCard
-                  key={article.id}
+                  key={article.slug}
                   article={article}
                   index={index}
                 />

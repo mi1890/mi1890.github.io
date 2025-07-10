@@ -1,14 +1,81 @@
 import configData from './config.json'
 
+interface ConfigData {
+  site: {
+    name: string
+    description: string
+    url: string
+  }
+  pagination: {
+    itemsPerPage: number
+    maxVisiblePages: number
+  }
+  author: {
+    name: string
+    title: string
+    subtitle: string
+    description: string
+    bio: string[]
+    location: string
+    contacts: Array<{
+      type: string
+      label: string
+      url: string
+      icon: string
+    }>
+  }
+  comments: {
+    enabled: boolean
+    giscus: {
+      repo: string
+      repoId: string
+      category: string
+      categoryId: string
+      mapping: string
+      strict: string
+      reactionsEnabled: string
+      emitMetadata: string
+      inputPosition: string
+      theme: string
+      lang: string
+      loading: string
+    }
+  }
+  skills: string[]
+  interests: Array<{
+    name: string
+    description: string
+    icon: string
+    color: string
+  }>
+  timeline: Array<{
+    year: string
+    title: string
+    description: string
+  }>
+}
+
 /**
  * 应用配置管理器
  */
 class ConfigManager {
+  private config: ConfigData
+  private isProduction: boolean
+  private runtimeConfig: ConfigData | null
+  private isLoading: boolean
+
   constructor() {
-    this.config = configData
-    this.isProduction = import.meta.env.PROD
+    this.config = configData as ConfigData
+    this.isProduction = import.meta.env.PROD as boolean
     this.runtimeConfig = null
     this.isLoading = false
+  }
+
+  /**
+   * 检查是否为生产环境
+   */
+  get isProductionEnv() {
+    return this.isProduction
   }
 
   /**
@@ -103,7 +170,7 @@ class ConfigManager {
 const configManager = new ConfigManager()
 
 // 在生产环境中初始化运行时配置
-if (configManager.isProduction) {
+if (configManager.isProductionEnv) {
   configManager.initRuntimeConfig()
 }
 

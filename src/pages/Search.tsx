@@ -1,15 +1,16 @@
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Search as SearchIcon, X, Filter } from 'lucide-react'
 import ArticleCard from '../components/ArticleCard'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useBlog } from '../context/BlogContext'
+import type { Article } from '../types'
 
-const Search = () => {
-  const { articles, tags, loading, searchArticles } = useBlog()
-  const [query, setQuery] = useState('')
-  const [selectedTag, setSelectedTag] = useState('')
-  const [isSearched, setIsSearched] = useState(false)
+const Search: React.FC = () => {
+  const { tags, loading, searchArticles } = useBlog()
+  const [query, setQuery] = useState<string>('')
+  const [selectedTag, setSelectedTag] = useState<string>('')
+  const [isSearched, setIsSearched] = useState<boolean>(false)
 
   const searchResults = useMemo(() => {
     if (!query.trim() && !selectedTag) {
@@ -19,13 +20,13 @@ const Search = () => {
     let results = searchArticles(query)
     
     if (selectedTag) {
-      results = results.filter(article => article.tags.includes(selectedTag))
+      results = results.filter((article: Article) => article.tags.includes(selectedTag))
     }
 
     return results
   }, [query, selectedTag, searchArticles])
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     setIsSearched(true)
   }
@@ -36,22 +37,23 @@ const Search = () => {
     setIsSearched(false)
   }
 
-  const highlightText = (text, query) => {
-    if (!query.trim()) return text
+  // 暂时注释掉未使用的函数，如果后续需要高亮功能可以启用
+  // const highlightText = (text: string, query: string): React.ReactNode => {
+  //   if (!query.trim()) return text
 
-    const regex = new RegExp(`(${query})`, 'gi')
-    const parts = text.split(regex)
+  //   const regex = new RegExp(`(${query})`, 'gi')
+  //   const parts = text.split(regex)
 
-    return parts.map((part, index) =>
-      regex.test(part) ? (
-        <mark key={index} className="bg-yellow-200 text-yellow-900 rounded px-1">
-          {part}
-        </mark>
-      ) : (
-        part
-      )
-    )
-  }
+  //   return parts.map((part: string, index: number) =>
+  //     regex.test(part) ? (
+  //       <mark key={index} className="bg-yellow-200 text-yellow-900 rounded px-1">
+  //         {part}
+  //       </mark>
+  //     ) : (
+  //       part
+  //     )
+  //   )
+  // }
 
   if (loading) {
     return <LoadingSpinner text="正在准备搜索..." />
@@ -123,7 +125,7 @@ const Search = () => {
                 全部
               </button>
               
-              {tags.map((tag) => (
+              {tags.map((tag: string) => (
                 <button
                   key={tag}
                   type="button"
@@ -185,8 +187,8 @@ const Search = () => {
             {/* Results Grid */}
             {searchResults.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {searchResults.map((article, index) => (
-                  <div key={article.id}>
+                {searchResults.map((article: Article, index: number) => (
+                  <div key={article.slug}>
                     <ArticleCard article={article} index={index} />
                   </div>
                 ))}

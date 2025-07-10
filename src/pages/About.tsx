@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Code, Coffee, Heart, Github, Mail, MapPin,Gamepad } from 'lucide-react'
-import configManager from '../config/index.jsx'
+import configManager from '../config/index'
 
-const About = () => {
+const About: React.FC = () => {
   // 从配置文件获取数据
   let authorInfo, skills, interests, timeline
   
@@ -18,7 +18,7 @@ const About = () => {
   }
   
   // 图标映射
-  const iconMap = {
+  const iconMap: Record<string, React.ComponentType<any>> = {
     Code,
     Coffee,
     Heart,
@@ -26,7 +26,7 @@ const About = () => {
     Mail,
     MapPin,
     Gamepad,
-  }
+  } as const
 
   if (!authorInfo || !skills || !interests || !timeline) {
     return <div className="text-center py-12">配置加载中...</div>
@@ -76,7 +76,7 @@ const About = () => {
 
             {/* Contact Info */}
             <div className="flex flex-wrap gap-4">
-              {authorInfo.contacts.map((contact, index) => {
+              {authorInfo.contacts.map((contact: any, index: number) => {
                 const Icon = iconMap[contact.icon]
                 return (
                   <a
@@ -105,11 +105,11 @@ const About = () => {
             </h3>
             
             <div className="grid grid-cols-2 gap-4">
-              {interests.map((interest, index) => {
+              {interests.map((interest: any, index: number) => {
                 const Icon = iconMap[interest.icon]
                 
                 // 定义颜色映射
-                const colorClasses = {
+                const colorClasses: Record<string, string> = {
                   blue: 'bg-blue-50 text-blue-600',
                   green: 'bg-green-50 text-green-600',
                   red: 'bg-red-50 text-red-600',
