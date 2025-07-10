@@ -1,0 +1,24 @@
+{
+  "articles": [
+    {
+      "slug": "css-grid-layout",
+      "enabled": true
+    },
+    {
+      "slug": "how-to-use-images-in-blog",
+      "enabled": true
+    },
+    {
+      "slug": "javascript-async-patterns",
+      "enabled": true
+    },
+    {
+      "slug": "react-best-practices",
+      "enabled": true
+    },
+    {
+      "slug": "typescript-advanced",
+      "enabled": true
+    }
+  ]
+}
