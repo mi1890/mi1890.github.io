@@ -50,8 +50,14 @@ function parseFrontmatter(content: string): { data: any; content: string } {
 // 获取所有文章数据
 export async function getAllArticles(): Promise<Article[]> {
   try {
+    // 获取基础路径
+    const basePath = import.meta.env.BASE_URL || '/'
+    
     // 获取文章配置
-    const articlesResponse = await fetch('/config/articles.json')
+    const articlesResponse = await fetch(`${basePath}config/articles.json`)
+    if (!articlesResponse.ok) {
+      throw new Error(`Failed to fetch articles config: ${articlesResponse.status}`)
+    }
     const articlesConfig = await articlesResponse.json()
     
     // 获取启用的文章
@@ -60,7 +66,10 @@ export async function getAllArticles(): Promise<Article[]> {
     // 并行获取所有文章的内容
     const articlePromises = enabledArticles.map(async (articleConfig: any) => {
       try {
-        const response = await fetch(`/posts/${articleConfig.slug}.md`)
+        const response = await fetch(`${basePath}posts/${articleConfig.slug}.md`)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch article ${articleConfig.slug}: ${response.status}`)
+        }
         const content = await response.text()
         
         // 使用自定义 frontmatter 解析器

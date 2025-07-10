@@ -91,7 +91,7 @@ function scanPosts() {
 }
 
 // 如果直接运行此脚本
-if (process.argv[1] && process.argv[1].endsWith('scan-posts.js')) {
+if (process.argv[1] && (process.argv[1].endsWith('scan-posts.js') || process.argv[1].endsWith('scan-posts.ts'))) {
   console.log('开始扫描文章...');
   scanPosts();
 }
