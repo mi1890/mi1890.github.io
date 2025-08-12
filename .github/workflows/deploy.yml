@@ -1,0 +1,84 @@
+# 使用 peaceiris/actions-gh-pages 来避免构件冲突问题
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+# Prevent concurrent deployments
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Debug - Check posts directory
+        run: |
+          echo "=== Posts directory structure ==="
+          ls -la posts/
+          echo "=== End posts directory ==="
+
+      - name: Build
+        run: npm run build
+
+      - name: Debug - Check if config files are generated
+        run: |
+          echo "=== Checking public directory ==="
+          ls -la public/ || echo "No public directory"
+          ls -la public/config/ || echo "No public/config directory"
+          echo "=== Checking dist directory ==="
+          ls -la dist/
+          ls -la dist/config/ || echo "No dist/config directory"
+          echo "=== End debug ==="
+
+      - name: Create 404.html for GitHub Pages SPA routing
+        run: |
+          cat > dist/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="zh-CN">
+            <head>
+              <meta charset="UTF-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>Mi1890's Blog</title>
+              <script>
+                // GitHub Pages SPA 路由重定向
+                // 将当前路径存储到 sessionStorage，然后重定向到根路径
+                sessionStorage.setItem('redirect', location.pathname + location.search + location.hash);
+                location.replace('/');
+              </script>
+            </head>
+            <body>
+              <div>正在重定向...</div>
+            </body>
+          </html>
+          EOF
+
+      - name: List dist contents (debug)
+        run: ls -la dist/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          force_orphan: true
+          enable_jekyll: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
