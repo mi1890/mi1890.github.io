@@ -1,0 +1,40 @@
+{
+  "articles": [
+    {
+      "slug": "PDInGameDev",
+      "enabled": true
+    },
+    {
+      "slug": "css-grid-layout",
+      "enabled": true
+    },
+    {
+      "slug": "dual grid",
+      "enabled": true
+    },
+    {
+      "slug": "gamecreator+fusion",
+      "enabled": true
+    },
+    {
+      "slug": "gamecreator2",
+      "enabled": true
+    },
+    {
+      "slug": "how-to-use-images-in-blog",
+      "enabled": true
+    },
+    {
+      "slug": "javascript-async-patterns",
+      "enabled": true
+    },
+    {
+      "slug": "react-best-practices",
+      "enabled": true
+    },
+    {
+      "slug": "typescript-advanced",
+      "enabled": true
+    }
+  ]
+}
