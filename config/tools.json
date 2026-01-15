@@ -1,0 +1,11 @@
+{
+  "tools": [
+    {
+      "id": "puzzle_tool",
+      "title": "Puzzle Tool",
+      "description": "A tool for generating and editing bezier curve puzzles.",
+      "preview": "/images/tools/puzzle_tool.svg",
+      "link": "/tools/puzzle_tool/index.html"
+    }
+  ]
+}

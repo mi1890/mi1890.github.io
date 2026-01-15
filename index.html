@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Mi1890's Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script type="module" crossorigin src="/assets/index-fb10c7e7.js"></script>
+    <link rel="stylesheet" href="/assets/index-3eb05e75.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // GitHub Pages SPA 路由还原
+      // 检查 sessionStorage 中是否有重定向路径
+      (function() {
+        const redirect = sessionStorage.getItem('redirect');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          // 延迟执行，确保 React 应用已经初始化
+          setTimeout(() => {
+            window.history.replaceState(null, null, redirect);
+            // 触发 popstate 事件，让 React Router 知道路径变化
+            window.dispatchEvent(new PopStateEvent('popstate'));
+          }, 0);
+        }
+      })();
+    </script>
+    
+  </body>
+</html>
