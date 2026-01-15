@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run scan-posts && vite",
-    "build": "npm run scan-posts && tsc && vite build",
+    "dev": "npm run scan-posts && npm run scan-tools && vite",
+    "build": "npm run scan-posts && npm run scan-tools && tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext js,jsx,ts,tsx --report-unused-disable-directives --max-warnings 0",
     "scan-posts": "tsx scripts/scan-posts.ts",
+    "scan-tools": "tsx scripts/scan-tools.ts",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

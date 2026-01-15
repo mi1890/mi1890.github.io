@@ -1,0 +1,5 @@
+{
+  "title": "Puzzle Tool",
+  "description": "A tool for generating and editing bezier curve puzzles.",
+  "preview": "src/assets/react.svg"
+}

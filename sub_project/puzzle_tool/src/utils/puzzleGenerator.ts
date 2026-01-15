@@ -1,4 +1,4 @@
-import { BezierPoint, Edge, Vector2 } from "../types/puzzle";
+import { Edge, Vector2 } from "../types/puzzle";
 
 export interface PieceEdges {
   top: Edge;

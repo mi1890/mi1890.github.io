@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Articles from './pages/Articles'
+import Tools from './pages/Tools'
 import Search from './pages/Search'
 import ArticleDetail from './pages/ArticleDetail'
 import { BlogProvider } from './context/BlogContext'
@@ -52,6 +53,19 @@ const App: React.FC = () => {
                     transition={{ duration: 0.3 }}
                   >
                     <Articles />
+                  </motion.div>
+                } 
+              />
+              <Route 
+                path="/tools" 
+                element={
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Tools />
                   </motion.div>
                 } 
               />

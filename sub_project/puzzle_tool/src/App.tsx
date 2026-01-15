@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { BezierPointMode, Edge, PuzzleConfig } from './types/puzzle'
 import BezierEditor from './components/BezierEditor'

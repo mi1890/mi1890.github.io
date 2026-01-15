@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Code, Home, User, FileText, Search, LucideIcon } from 'lucide-react'
+import { Menu, X, Code, Home, User, FileText, Search, Hammer, LucideIcon } from 'lucide-react'
 
 interface NavItem {
   name: string
@@ -16,6 +16,7 @@ const Header: React.FC = () => {
   const navItems: NavItem[] = [
     { name: 'Home', path: '/', icon: Home },
     { name: 'Articles', path: '/articles', icon: FileText },
+    { name: 'Tools', path: '/tools', icon: Hammer },
     { name: 'About', path: '/about', icon: User },
     { name: 'Search', path: '/search', icon: Search },
   ]

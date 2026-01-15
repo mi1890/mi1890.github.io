@@ -18,6 +18,16 @@ export interface ArticleMeta {
   excerpt: string;
 }
 
+// Tool 类型定义
+export interface Tool {
+  id: string;
+  title: string;
+  description: string;
+  preview: string;
+  link: string;
+  date?: string;
+}
+
 // 分页信息
 export interface PaginationInfo {
   currentPage: number;
