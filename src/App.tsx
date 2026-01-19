@@ -8,6 +8,7 @@ import Articles from './pages/Articles'
 import Tools from './pages/Tools'
 import Search from './pages/Search'
 import ArticleDetail from './pages/ArticleDetail'
+import NotFound from './pages/NotFound'
 import { BlogProvider } from './context/BlogContext'
 
 const App: React.FC = () => {
@@ -92,6 +93,19 @@ const App: React.FC = () => {
                     transition={{ duration: 0.3 }}
                   >
                     <ArticleDetail />
+                  </motion.div>
+                } 
+              />
+              <Route 
+                path="*" 
+                element={
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <NotFound />
                   </motion.div>
                 } 
               />
