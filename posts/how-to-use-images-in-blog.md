@@ -3,6 +3,7 @@ title: "如何在博客中使用图片"
 excerpt: "详细介绍在 Markdown 文章中添加图片的方法，包括网络图片和本地图片的使用技巧。"
 date: "2025-01-15"
 tags: ["博客", "Markdown", "教程"]
+ispublish: true
 ---
 
 # 如何在博客中使用图片

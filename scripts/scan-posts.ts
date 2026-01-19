@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import matter from 'gray-matter';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,21 +40,33 @@ function scanPosts() {
     const files = fs.readdirSync(postsDir);
     const markdownFiles = files.filter(file => file.endsWith('.md'));
     
-    const articles = markdownFiles.map(file => {
+    const articles = [];
+    
+    for (const file of markdownFiles) {
+      const sourcePath = path.join(postsDir, file);
+      const fileContent = fs.readFileSync(sourcePath, 'utf-8');
+      const { data } = matter(fileContent);
+
+      // Check ispublish field (default to true if undefined)
+      if (data.ispublish === false) {
+        console.log(`- 跳过未发布文章: ${file}`);
+        continue;
+      }
+
       const slug = path.basename(file, '.md');
       
       // 复制文件到 public/posts
-      const sourcePath = path.join(postsDir, file);
       const destPath = path.join(publicPostsDir, file);
       fs.copyFileSync(sourcePath, destPath);
       
       console.log(`✓ 复制文章: ${file}`);
       
-      return {
+      articles.push({
         slug: slug,
-        enabled: true
-      };
-    });
+        enabled: true,
+        ispublish: true
+      });
+    }
     
     const config = {
       articles: articles

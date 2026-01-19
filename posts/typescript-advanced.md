@@ -3,6 +3,7 @@ title: "TypeScript 进阶指南"
 date: "2024-01-20"
 tags: ["TypeScript", "JavaScript", "类型系统"]
 excerpt: "深入理解 TypeScript 的高级特性，包括泛型、条件类型、映射类型等，提升代码的类型安全性。"
+ispublish: false
 ---
 
 # TypeScript 进阶指南

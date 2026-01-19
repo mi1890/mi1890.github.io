@@ -3,6 +3,7 @@ title: "PD在游戏中的应用"
 excerpt: "D（比例–微分）控制在游戏里的简单应用和实现方法。"
 date: "2025-08-12"
 tags: ["博客", "游戏开发", "教程","Unity3d"]
+ispublish: true
 ---
 
 

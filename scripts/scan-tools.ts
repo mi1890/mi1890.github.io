@@ -75,6 +75,13 @@ function scanTools() {
       }
 
       if (hasConfig) {
+        // Check ispublish field
+        console.log(`Checking ${item}: ispublish = ${toolData.ispublish}`);
+        if (toolData.ispublish === false) {
+          console.log(`- Skipping unpublished tool: ${item}`);
+          return;
+        }
+
         // Build and Deploy Sub-project
         try {
           console.log(`Building tool: ${item}...`);
@@ -127,7 +134,8 @@ function scanTools() {
           description: toolData.description || 'No description available.',
           preview: previewImage,
           link: toolData.link || `/tools/${item}/index.html`, 
-          date: toolData.date 
+          date: toolData.date,
+          ispublish: true
         });
         console.log(`✓ Found tool: ${item}`);
       }
