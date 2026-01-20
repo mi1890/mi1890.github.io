@@ -1,0 +1,8 @@
+{
+  "title": "Test Unity Game",
+  "description": "A test unity webgl build",
+  "type": "unity",
+  "distDir": "Build",
+  "ispublish": true,
+  "preview": ""
+}

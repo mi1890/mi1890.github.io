@@ -84,19 +84,29 @@ function scanTools() {
 
         // Build and Deploy Sub-project
         try {
-          console.log(`Building tool: ${item}...`);
+          console.log(`Processing tool: ${item} (Type: ${toolData.type || 'npm'})...`);
           
-          // Install dependencies if needed
-          if (!fs.existsSync(path.join(itemPath, 'node_modules'))) {
-             console.log(`Installing dependencies for ${item}...`);
-             execSync('npm install', { cwd: itemPath, stdio: 'inherit' });
+          const distDirName = toolData.distDir || 'dist';
+          let distDir = path.join(itemPath, distDirName);
+
+          // Handle 'npm' projects (default)
+          if (!toolData.type || toolData.type === 'npm') {
+            // Install dependencies if needed
+            if (!fs.existsSync(path.join(itemPath, 'node_modules'))) {
+               console.log(`Installing dependencies for ${item}...`);
+               execSync('npm install', { cwd: itemPath, stdio: 'inherit' });
+            }
+  
+            // Build
+            execSync('npm run build', { cwd: itemPath, stdio: 'inherit' });
+          } 
+          // Handle 'unity' projects
+          else if (toolData.type === 'unity') {
+             console.log(`Skipping build for Unity project: ${item}. Using existing build in '${distDirName}'`);
+             // For Unity, we expect the build to be already present in distDir
           }
 
-          // Build
-          execSync('npm run build', { cwd: itemPath, stdio: 'inherit' });
-
           // Copy dist to public/tools/item
-          const distDir = path.join(itemPath, 'dist');
           const targetDir = path.join(publicToolsDir, item);
           
           if (fs.existsSync(distDir)) {
@@ -107,7 +117,7 @@ function scanTools() {
               fs.cpSync(distDir, targetDir, { recursive: true });
               console.log(`✓ Deployed tool to: public/tools/${item}`);
           } else {
-              console.error(`Build warning: No dist directory found for ${item}`);
+              console.error(`Build warning: No dist directory found for ${item} at ${distDir}`);
           }
         } catch (e) {
           console.error(`Error building/deploying ${item}:`, e);
