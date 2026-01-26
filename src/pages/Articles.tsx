@@ -98,16 +98,25 @@ const Articles: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header - 减少高度 */}
+      {/* Header - 增强视觉效果 */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center py-2"
+        className="text-center py-4 relative"
       >
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        {/* 装饰性背景 */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-0 left-1/3 w-32 h-32 bg-blue-100/50 rounded-full blur-3xl" />
+          <div className="absolute top-4 right-1/3 w-24 h-24 bg-purple-100/50 rounded-full blur-3xl" />
+        </div>
+        <motion.h1 
+          className="text-3xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-2"
+          whileHover={{ scale: 1.02 }}
+        >
+          <FileText className="w-8 h-8 text-blue-600" />
           文章
-        </h1>
+        </motion.h1>
         <p className="text-lg text-gray-600">
           分享技术心得与编程思考
         </p>
@@ -120,23 +129,27 @@ const Articles: React.FC = () => {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="flex flex-col lg:flex-row gap-4 items-start lg:items-center lg:justify-between"
       >
-        {/* 紧凑统计卡片 - 水平排列 */}
-        <div className="card p-3 flex items-center gap-6 flex-shrink-0">
-          <div className="flex items-center gap-2">
+        {/* 紧凑统计卡片 - 水平排列，增加交互 */}
+        <motion.div 
+          className="card p-3 flex items-center gap-6 flex-shrink-0"
+          whileHover={{ scale: 1.02, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+          transition={{ type: 'spring', stiffness: 300 }}
+        >
+          <motion.div className="flex items-center gap-2" whileHover={{ y: -2 }}>
             <div className="text-lg font-bold text-blue-600">{articles.length}</div>
             <div className="text-gray-600 text-xs">文章</div>
-          </div>
+          </motion.div>
           <div className="w-px h-6 bg-gray-200"></div>
-          <div className="flex items-center gap-2">
+          <motion.div className="flex items-center gap-2" whileHover={{ y: -2 }}>
             <div className="text-lg font-bold text-green-600">{tags.length}</div>
             <div className="text-gray-600 text-xs">标签</div>
-          </div>
+          </motion.div>
           <div className="w-px h-6 bg-gray-200"></div>
-          <div className="flex items-center gap-2">
+          <motion.div className="flex items-center gap-2" whileHover={{ y: -2 }}>
             <div className="text-lg font-bold text-purple-600">{filteredAndSortedArticles.length}</div>
             <div className="text-gray-600 text-xs">筛选</div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* 排序选项 */}
         <div className="flex flex-wrap items-center gap-3">
@@ -146,18 +159,20 @@ const Articles: React.FC = () => {
               const Icon = option.icon
               const isActive = sortBy === option.value
               return (
-                <button
+                <motion.button
                   key={option.value}
                   onClick={() => handleSortChange(option.value)}
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg transition-all duration-300 text-sm ${
                     isActive
-                      ? 'bg-blue-600 text-white shadow-glow'
-                      : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
+                      ? 'bg-blue-600 text-white shadow-colored'
+                      : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card border border-gray-100'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
                   <span className="font-medium">{option.label}</span>
-                </button>
+                </motion.button>
               )
             })}
           </div>

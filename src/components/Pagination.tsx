@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react'
 import configManager from '../config/index'
 
@@ -80,27 +81,34 @@ const Pagination: React.FC<PaginationProps> = ({
   const endItem = Math.min(currentPage * actualItemsPerPage, totalItems)
 
   return (
-    <div className="flex flex-col items-center space-y-4 mt-8">
+    <motion.div 
+      className="flex flex-col items-center space-y-4 mt-8"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       {/* 分页信息 */}
-      <div className="text-sm text-gray-600">
-        显示 {startItem} - {endItem} 项，共 {totalItems} 项
+      <div className="text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-full">
+        显示 <span className="font-semibold text-gray-700">{startItem} - {endItem}</span> 项，共 <span className="font-semibold text-blue-600">{totalItems}</span> 项
       </div>
 
       {/* 分页按钮 */}
       <div className="flex items-center space-x-2">
         {/* 上一页按钮 */}
-        <button
+        <motion.button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+          whileHover={currentPage !== 1 ? { scale: 1.05, x: -2 } : {}}
+          whileTap={currentPage !== 1 ? { scale: 0.95 } : {}}
+          className={`flex items-center space-x-1 px-4 py-2 rounded-xl transition-all duration-200 ${
             currentPage === 1
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
+              : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card border border-gray-100'
           }`}
         >
           <ChevronLeft className="w-4 h-4" />
-          <span className="hidden sm:inline">上一页</span>
-        </button>
+          <span className="hidden sm:inline font-medium">上一页</span>
+        </motion.button>
 
         {/* 页码按钮 */}
         {pageNumbers.map((page, index) => (
@@ -110,43 +118,47 @@ const Pagination: React.FC<PaginationProps> = ({
                 <MoreHorizontal className="w-4 h-4" />
               </div>
             ) : (
-              <button
+              <motion.button
                 onClick={() => onPageChange(typeof page === 'number' ? page : parseInt(page))}
-                className={`w-10 h-10 rounded-lg transition-all duration-200 ${
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className={`w-10 h-10 rounded-xl font-medium transition-all duration-200 ${
                   currentPage === page
-                    ? 'bg-blue-600 text-white shadow-glow'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-colored'
+                    : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card border border-gray-100'
                 }`}
               >
                 {page}
-              </button>
+              </motion.button>
             )}
           </React.Fragment>
         ))}
 
         {/* 下一页按钮 */}
-        <button
+        <motion.button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`flex items-center space-x-1 px-3 py-2 rounded-lg transition-all duration-200 ${
+          whileHover={currentPage !== totalPages ? { scale: 1.05, x: 2 } : {}}
+          whileTap={currentPage !== totalPages ? { scale: 0.95 } : {}}
+          className={`flex items-center space-x-1 px-4 py-2 rounded-xl transition-all duration-200 ${
             currentPage === totalPages
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-              : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card'
+              : 'bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-card border border-gray-100'
           }`}
         >
-          <span className="hidden sm:inline">下一页</span>
+          <span className="hidden sm:inline font-medium">下一页</span>
           <ChevronRight className="w-4 h-4" />
-        </button>
+        </motion.button>
       </div>
 
       {/* 页面跳转 */}
       <div className="flex items-center space-x-2 text-sm">
-        <span className="text-gray-600">跳转到</span>
+        <span className="text-gray-500">跳转到</span>
         <input
           type="number"
           min="1"
           max={totalPages}
-          className="w-16 px-2 py-1 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-16 px-3 py-1.5 text-center border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all input-glow"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               const target = e.target as HTMLInputElement
@@ -159,9 +171,9 @@ const Pagination: React.FC<PaginationProps> = ({
           }}
           placeholder={currentPage.toString()}
         />
-        <span className="text-gray-600">页</span>
+        <span className="text-gray-500">页</span>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
