@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import JSZip from 'jszip'
 import './App.css'
 import { BezierPointMode, Edge, PuzzleConfig } from './types/puzzle'
 import BezierEditor from './components/BezierEditor'
@@ -96,6 +97,24 @@ function App() {
     }
   };
 
+  const createMirroredEdge = () => {
+    const sourceEdge = config.edgeConfigs[selectedEdgeIndex];
+    const mirroredPoints = [...sourceEdge.points].reverse().map(pt => ({
+      position: { x: 1 - pt.position.x, y: pt.position.y },
+      leftControlPoint: { x: -pt.rightControlPoint.x, y: pt.rightControlPoint.y },
+      rightControlPoint: { x: -pt.leftControlPoint.x, y: pt.leftControlPoint.y },
+      mode: pt.mode,
+    }));
+    const newEdge: Edge = {
+      id: `edge-${Date.now()}`,
+      name: `${sourceEdge.name} (翻转)`,
+      points: mirroredPoints,
+    };
+    const newEdges = [...config.edgeConfigs, newEdge];
+    setConfig({ ...config, edgeConfigs: newEdges });
+    setSelectedEdgeIndex(newEdges.length - 1);
+  };
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -114,20 +133,29 @@ function App() {
     downloadAnchorNode.remove();
   };
 
-  const importConfig = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const importConfig = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const imported = JSON.parse(event.target?.result as string);
-          setConfig(imported);
-        } catch (err) {
-          alert("Failed to import config: " + err);
+    if (!file) return;
+
+    try {
+      if (file.name.endsWith('.zip')) {
+        const zip = await JSZip.loadAsync(file);
+        const configFile = zip.file('puzzle_tool_config.json');
+        if (!configFile) {
+          alert('zip 中未找到 puzzle_tool_config.json');
+          return;
         }
-      };
-      reader.readAsText(file);
+        const text = await configFile.async('string');
+        setConfig(JSON.parse(text));
+      } else {
+        const text = await file.text();
+        setConfig(JSON.parse(text));
+      }
+    } catch (err) {
+      alert("导入失败: " + err);
     }
+
+    e.target.value = '';
   };
 
   return (
@@ -172,8 +200,8 @@ function App() {
 
         <div className="p-4 border-t border-gray-100 space-y-2">
           <label className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg cursor-pointer transition-colors text-sm font-medium">
-            <span>Import JSON</span>
-            <input type="file" accept=".json" onChange={importConfig} className="hidden" />
+            <span>Import Config</span>
+            <input type="file" accept=".json,.zip" onChange={importConfig} className="hidden" />
           </label>
           <button 
             onClick={exportConfig}
@@ -250,7 +278,13 @@ function App() {
                           className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                         />
                       </div>
-                      <div className="pt-4 border-t border-gray-100">
+                      <div className="pt-4 border-t border-gray-100 space-y-2">
+                        <button
+                          onClick={createMirroredEdge}
+                          className="w-full px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-xl transition-all text-sm font-bold"
+                        >
+                          创建水平翻转
+                        </button>
                         <button
                           onClick={() => removeEdge(selectedEdgeIndex)}
                           disabled={config.edgeConfigs.length <= 1}
@@ -312,6 +346,15 @@ function App() {
                         type="number" 
                         value={config.seed} 
                         onChange={e => setConfig({...config, seed: parseInt(e.target.value) || 0})}
+                        className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs text-gray-400 uppercase font-black mb-1.5 tracking-wider">遮罩分辨率</label>
+                      <input 
+                        type="number" 
+                        value={config.maskResolution ?? 512} 
+                        onChange={e => setConfig({...config, maskResolution: parseInt(e.target.value) || 512})}
                         className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                       />
                     </div>

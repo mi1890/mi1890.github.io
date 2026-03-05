@@ -26,7 +26,9 @@ export interface PuzzleConfig {
   columns: number;
   seed: number;
   edgeConfigs: Edge[];
-  selectedEdgeIds?: string[]; // IDs of edges that can be used for puzzle generation
+  selectedEdgeIds?: string[];
+  paddingSize?: number;
+  maskResolution?: number;
 }
 
 export interface PuzzlePieceConfig {
