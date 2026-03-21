@@ -1,0 +1,89 @@
+{
+  "articles": [
+    {
+      "slug": "PDInGameDev",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "cnc_pathfinder",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "cnc_pathfinder_extension",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "dual grid",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "exgas",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2+fusion",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_behavior",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_character",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_inventory",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_melee",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_quest",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_shooter",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_stats",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "gamecreator2_traverse",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "how-to-use-images-in-blog",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "javascript-async-patterns",
+      "enabled": true,
+      "ispublish": true
+    },
+    {
+      "slug": "openra_pafhfinding",
+      "enabled": true,
+      "ispublish": true
+    }
+  ]
+}
