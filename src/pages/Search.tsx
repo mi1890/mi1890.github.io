@@ -61,28 +61,13 @@ const Search: React.FC = () => {
 
   return (
     <div className="space-y-8">
-      {/* Header - 增强视觉效果 */}
+      {/* Header */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center relative py-4"
+        className="text-center"
       >
-        {/* 装饰性背景 */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/3 w-32 h-32 bg-blue-100/50 rounded-full blur-3xl" />
-          <div className="absolute top-4 right-1/4 w-28 h-28 bg-purple-100/50 rounded-full blur-3xl" />
-        </div>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-          className="inline-block mb-4"
-        >
-          <div className="w-16 h-16 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-colored">
-            <SearchIcon className="w-8 h-8 text-white" />
-          </div>
-        </motion.div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           搜索文章
         </h1>
@@ -91,7 +76,7 @@ const Search: React.FC = () => {
         </p>
       </motion.section>
 
-      {/* Search Form - 增强交互 */}
+      {/* Search Form */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -99,104 +84,83 @@ const Search: React.FC = () => {
         className="card p-6"
       >
         <form onSubmit={handleSearch} className="space-y-6">
-          {/* Search Input - 增强聚焦效果 */}
-          <div className="relative group">
-            <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 group-focus-within:text-blue-500 transition-colors" />
+          {/* Search Input */}
+          <div className="relative">
+            <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜索文章标题、内容或标签..."
-              className="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-lg input-glow"
+              className="w-full pl-12 pr-12 py-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg"
             />
             {query && (
-              <motion.button
+              <button
                 type="button"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
                 onClick={() => setQuery('')}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-100"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X className="w-5 h-5" />
-              </motion.button>
+              </button>
             )}
           </div>
 
-          {/* Tag Filter - 增强交互 */}
+          {/* Tag Filter */}
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center space-x-2">
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 4 }}
-              >
-                <Filter className="w-5 h-5 text-blue-600" />
-              </motion.div>
+              <Filter className="w-5 h-5 text-gray-600" />
               <span className="font-medium text-gray-700">标签筛选:</span>
             </div>
             
             <div className="flex flex-wrap gap-2">
-              <motion.button
+              <button
                 type="button"
                 onClick={() => setSelectedTag('')}
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 border ${
+                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   !selectedTag
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-colored'
-                    : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                 }`}
               >
                 全部
-              </motion.button>
+              </button>
               
               {tags.map((tag: string) => (
-                <motion.button
+                <button
                   key={tag}
                   type="button"
                   onClick={() => setSelectedTag(tag === selectedTag ? '' : tag)}
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 border ${
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                     selectedTag === tag
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-colored'
-                      : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-blue-50 hover:text-blue-600'
                   }`}
                 >
-                  {selectedTag === tag && <span className="mr-1">✓</span>}
                   {tag}
-                </motion.button>
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Action Buttons - 增强交互 */}
+          {/* Action Buttons */}
           <div className="flex flex-wrap gap-4">
-            <motion.button
+            <button
               type="submit"
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-500 hover:to-purple-500 transition-all duration-300 font-medium shadow-colored"
+              className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 font-medium"
             >
               <SearchIcon className="w-5 h-5" />
               <span>搜索</span>
-            </motion.button>
+            </button>
             
             {(query || selectedTag) && (
-              <motion.button
+              <button
                 type="button"
                 onClick={handleClear}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center space-x-2 px-6 py-3 border border-gray-200 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors duration-300 font-medium"
+                className="flex items-center space-x-2 px-6 py-3 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-300 font-medium"
               >
                 <X className="w-5 h-5" />
                 <span>清除</span>
-              </motion.button>
+              </button>
             )}
           </div>
         </form>
@@ -259,13 +223,9 @@ const Search: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-16"
           >
-            <motion.div 
-              className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-inner"
-              animate={{ y: [0, -5, 0] }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-            >
-              <SearchIcon className="w-12 h-12 text-blue-600" />
-            </motion.div>
+            <div className="bg-blue-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
+              <SearchIcon className="w-10 h-10 text-blue-600" />
+            </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
               开始搜索文章
             </h3>

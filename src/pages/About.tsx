@@ -34,35 +34,16 @@ const About: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12">
-      {/* Header - 增强视觉效果 */}
+      {/* Header */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center relative py-4"
+        className="text-center"
       >
-        {/* 装饰性背景 */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 left-1/4 w-40 h-40 bg-blue-100/40 rounded-full blur-3xl" />
-          <div className="absolute top-8 right-1/4 w-32 h-32 bg-purple-100/40 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-1/2 w-36 h-36 bg-pink-100/30 rounded-full blur-3xl transform -translate-x-1/2" />
-        </div>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-          className="inline-block mb-4"
-        >
-          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-colored">
-            <Code className="w-10 h-10 text-white" />
-          </div>
-        </motion.div>
-        <motion.h1 
-          className="text-4xl font-bold text-gray-900 mb-4"
-          whileHover={{ scale: 1.02 }}
-        >
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">
           关于我
-        </motion.h1>
+        </h1>
         <p className="text-xl text-gray-600">
           {authorInfo.subtitle}
         </p>
@@ -170,13 +151,8 @@ const About: React.FC = () => {
               key={skill}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-              whileHover={{ 
-                scale: 1.1, 
-                y: -3,
-                boxShadow: '0 10px 20px -5px rgba(59, 130, 246, 0.4)'
-              }}
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium font-mono text-sm cursor-default shadow-md hover:from-blue-500 hover:to-purple-500 transition-all duration-300"
+              transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium font-mono text-sm"
             >
               {skill}
             </motion.span>
@@ -195,35 +171,25 @@ const About: React.FC = () => {
           成长轨迹
         </h2>
         
-        <div className="space-y-8 relative">
-          {/* 连接线 */}
-          <div className="absolute left-6 top-12 bottom-12 w-0.5 bg-gradient-to-b from-blue-600 via-purple-500 to-blue-400" />
-          
+        <div className="space-y-8">
           {timeline.map((item, index) => (
             <motion.div
               key={item.year}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
-              className="flex gap-6 relative group"
+              className="flex gap-6"
             >
-              <motion.div 
-                className="flex-shrink-0 relative z-10"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                transition={{ type: 'spring', stiffness: 300 }}
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 text-white rounded-xl flex items-center justify-center font-bold font-mono text-sm shadow-colored group-hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold font-mono text-sm">
                   {item.year.slice(-2)}
                 </div>
-              </motion.div>
-              <div className="flex-1 pb-8 pt-1">
-                <motion.h3 
-                  className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors"
-                  whileHover={{ x: 5 }}
-                >
+              </div>
+              <div className="flex-1 pb-8">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
                   {item.title}
-                </motion.h3>
-                <p className="text-gray-600 leading-relaxed">
+                </h3>
+                <p className="text-gray-600">
                   {item.description}
                 </p>
               </div>

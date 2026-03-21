@@ -15,190 +15,19 @@
   code {
     font-family: 'JetBrains Mono', monospace;
   }
-
-  /* 尊重用户的减少动画偏好 */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
 }
 
 @layer components {
-  /* 基础卡片样式 */
   .card {
-    @apply bg-white rounded-xl shadow-card transition-all duration-300;
-    @apply border border-gray-100/50;
+    @apply bg-white rounded-lg shadow-card hover:shadow-card-hover transition-all duration-300;
   }
   
-  /* 高级卡片悬浮效果 - 带微妙倾斜和光晕 */
   .card-hover {
-    @apply relative overflow-hidden;
-    transform-style: preserve-3d;
-    perspective: 1000px;
+    @apply transform hover:scale-105 transition-all duration-300;
   }
   
-  .card-hover::before {
-    content: '';
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-      rgba(59, 130, 246, 0.08) 0%, 
-      transparent 60%);
-    pointer-events: none;
-  }
-  
-  .card-hover:hover::before {
-    @apply opacity-100;
-  }
-  
-  .card-hover:hover {
-    @apply shadow-card-hover;
-    transform: translateY(-4px) scale(1.01);
-  }
-
-  /* 渐变文字 - 增强版 */
   .gradient-text {
-    @apply bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 bg-clip-text text-transparent;
-    background-size: 200% auto;
-    animation: gradient-flow 3s ease infinite;
-  }
-
-  @keyframes gradient-flow {
-    0%, 100% { background-position: 0% center; }
-    50% { background-position: 100% center; }
-  }
-
-  /* 发光按钮效果 */
-  .btn-glow {
-    @apply relative overflow-hidden;
-  }
-
-  .btn-glow::after {
-    content: '';
-    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
-    background-size: 300% 300%;
-    animation: shimmer 2s infinite;
-  }
-
-  .btn-glow:hover::after {
-    @apply opacity-100;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-  }
-
-  /* 交互式标签 */
-  .tag-interactive {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
-    @apply bg-blue-50 text-blue-700 border border-blue-200;
-    @apply transition-all duration-200 cursor-default;
-  }
-
-  .tag-interactive:hover {
-    @apply bg-blue-100 border-blue-300 scale-105;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
-  }
-
-  /* 链接下划线动效 */
-  .link-underline {
-    @apply relative;
-  }
-
-  .link-underline::after {
-    content: '';
-    @apply absolute left-0 bottom-0 w-0 h-0.5 bg-blue-600;
-    @apply transition-all duration-300 ease-out;
-  }
-
-  .link-underline:hover::after {
-    @apply w-full;
-  }
-
-  /* 图标旋转弹跳效果 */
-  .icon-bounce {
-    @apply transition-transform duration-300;
-  }
-
-  .icon-bounce:hover {
-    animation: icon-pop 0.4s ease;
-  }
-
-  @keyframes icon-pop {
-    0% { transform: scale(1) rotate(0deg); }
-    25% { transform: scale(1.2) rotate(-10deg); }
-    50% { transform: scale(1.1) rotate(10deg); }
-    75% { transform: scale(1.15) rotate(-5deg); }
-    100% { transform: scale(1) rotate(0deg); }
-  }
-
-  /* 浮动动画 */
-  .float {
-    animation: float 3s ease-in-out infinite;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-  }
-
-  /* 脉冲光环 */
-  .pulse-ring {
-    @apply relative;
-  }
-
-  .pulse-ring::before {
-    content: '';
-    @apply absolute inset-0 rounded-full;
-    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    background: inherit;
-  }
-
-  @keyframes pulse-ring {
-    0% { transform: scale(1); opacity: 0.5; }
-    50% { transform: scale(1.1); opacity: 0; }
-    100% { transform: scale(1); opacity: 0; }
-  }
-
-  /* 背景光点装饰 */
-  .bg-dots {
-    background-image: radial-gradient(circle, #e5e7eb 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-
-  /* 渐变背景动画 - 纯白基调 */
-  .bg-gradient-animated {
-    background: linear-gradient(-45deg, #ffffff, #fafafa, #ffffff, #f8fafc);
-    background-size: 400% 400%;
-    animation: gradient-bg 15s ease infinite;
-  }
-
-  @keyframes gradient-bg {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* 滚动触发淡入效果 */
-  .fade-in-up {
-    @apply opacity-0 translate-y-4;
-    animation: fadeInUp 0.6s ease forwards;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      @apply opacity-100 translate-y-0;
-    }
-  }
-
-  /* 输入框聚焦效果 */
-  .input-glow:focus {
-    @apply ring-2 ring-blue-500/20 border-blue-500;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
   }
   
   .prose-custom {
@@ -211,20 +40,16 @@
 
   /* 代码块样式优化 */
   .prose pre {
-    @apply overflow-x-auto max-w-full rounded-xl;
+    @apply overflow-x-auto max-w-full;
     white-space: pre-wrap;
     word-wrap: break-word;
     word-break: break-all;
   }
   
   .prose code {
-    @apply break-words px-1.5 py-0.5 rounded bg-gray-100 text-blue-600;
+    @apply break-words;
     white-space: pre-wrap;
     word-wrap: break-word;
-  }
-
-  .prose pre code {
-    @apply bg-transparent text-gray-100 p-0;
   }
   
   /* 确保代码块容器不会超出父容器 */
@@ -234,21 +59,5 @@
     overflow-wrap: break-word;
     max-width: 100%;
     display: block;
-  }
-
-  /* 页面过渡效果 */
-  .page-transition {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  /* 骨架屏加载效果 */
-  .skeleton {
-    @apply bg-gray-200 rounded animate-pulse;
-  }
-
-  /* 滚动进度条 */
-  .scroll-progress {
-    @apply fixed top-0 left-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 z-50;
-    transform-origin: left;
   }
 }
